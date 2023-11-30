@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDTO } from './dto/create-courses.dto';
 import { UpdateCourseDTO } from './dto/update-courses.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Courses')
 @Controller('courses')
 export class CoursesController {
     constructor(private readonly coursesServices: CoursesService){}
@@ -17,6 +19,7 @@ export class CoursesController {
         return this.coursesServices.findOne(id);
     }
     
+
     @Post()
     create(@Body() body: CreateCourseDTO){
         return this.coursesServices.create(body);
@@ -27,7 +30,7 @@ export class CoursesController {
         return this.coursesServices.update(id, body);
     }
 
-    // @HttpCode(HttpStatus.NO_CONTENT)
+    @HttpCode(HttpStatus.NO_CONTENT)
     @Delete(':id')
     remove(@Param('id') id: string){
         return this.coursesServices.remove(id);
